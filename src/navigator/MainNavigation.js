@@ -32,8 +32,8 @@ function MovieStackScreen() {
                             options={{
                                 headerRight: () => (
                                     <Button
-                                        title={value.theme ? 'list' : 'grid'}
-                                        color='#00cc00'
+                                        title={value.theme ? '切换为列表' : '切换为表格'}
+                                        color='#FFA000'
                                         onPress={() => { DeviceEventEmitter.emit('mod') }} />
                                 )
                             }}
@@ -49,21 +49,27 @@ const TVStack = createStackNavigator();
 function TVStackScreen() {
 
     return (
-        <TVStack.Navigator>
-            <TVStack.Screen
-                name={TV_TITLE}
-                component={TVScreen}
-                initialParams={{ mode: 0 }}
-                options={{
-                    headerRight: () => (
-                        <Button
-                            title='asd'
-                            color='#00cc00'
-                            onPress={() => { DeviceEventEmitter.emit('mod') }} />
-                    )
-                }} />
-            <TVStack.Screen name={DETAIL_TITLE} component={DetailScreen} />
-        </TVStack.Navigator>
+        <ThemeContext.Consumer>
+            {
+                value =>
+                    <TVStack.Navigator>
+                        <TVStack.Screen
+                            name={TV_TITLE}
+                            component={TVScreen}
+                            initialParams={{ mode: 0 }}
+                            options={{
+                                headerRight: () => (
+                                    <Button
+                                        title={value.theme ? '切换为列表' : '切换为表格'}
+                                        color='#FFA000'
+                                        onPress={() => { DeviceEventEmitter.emit('mod') }} />
+                                )
+                            }} />
+                        <TVStack.Screen name={DETAIL_TITLE} component={DetailScreen} />
+                    </TVStack.Navigator>
+            }
+        </ThemeContext.Consumer>
+
     )
 }
 
