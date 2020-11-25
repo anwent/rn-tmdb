@@ -14,7 +14,7 @@ import {
 const itemMargin = 10;
 const gridColumns = 3;
 
-export function renderItem(item, index, isGrid, isMovie) {
+export function renderItem(item, index, isGrid, isMovie, onPress = () => {}) {
     let imageUrl = `https://image.tmdb.org/t/p/w300${isMovie ? item.backdrop_path : item.poster_path}`
     let title = isMovie ? item.title : item.name;
 
@@ -22,7 +22,8 @@ export function renderItem(item, index, isGrid, isMovie) {
         <TouchableOpacity
             style={styles({
                 isGrid: isGrid
-            }).item} >
+            }).item} 
+            onPress={onPress} >
             <Image
                 style={styles({}).image}
                 source={{ uri: imageUrl }} />

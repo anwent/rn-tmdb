@@ -12,7 +12,13 @@ class Detail extends Component {
 
 export const DETAIL_TITLE = '详情';
 
-export function DetailScreen({ navigation }) {
+export function DetailScreen({ navigation, route }) {
+
+
+    console.log(route.params.index);
+    console.log(route.params.item);
+
+
     return (
         <Detail />
     )

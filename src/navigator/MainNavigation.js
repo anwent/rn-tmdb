@@ -102,7 +102,8 @@ export function TMDBNavigation() {
                     }} >
                     <Tabbar.Screen
                         name={MOVIE_TITLE}
-                        component={MovieStackScreen} />
+                        component={MovieStackScreen}
+                        />
                     <Tabbar.Screen
                         name={TV_TITLE}
                         component={TVStackScreen} />

@@ -28,7 +28,9 @@ class Movie extends Component {
                                 backgroundColor: '#000000'
                             }}
                             data={this.state.datasource}
-                            renderItem={({ item, index }) => renderItem(item, index, value.theme, true)}
+                            renderItem={({ item, index }) => renderItem(item, index, value.theme, true, () => {
+                                this._onClickItem(item, index);
+                            })}
                             keyExtractor={(item, index) => String(index)}
                             key={value.theme ? 'v' : 'h'}
                             numColumns={value.theme ? 3 : 1}
@@ -43,6 +45,10 @@ class Movie extends Component {
         this.setState({
             datasource: req.results
         })
+    }
+
+    _onClickItem(item, index) {
+        this.props.nav.navigate(DETAIL_TITLE, { item, index });
     }
 }
 
