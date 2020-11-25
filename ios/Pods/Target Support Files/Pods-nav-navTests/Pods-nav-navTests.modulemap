@@ -1,0 +1,6 @@
+module Pods_nav_navTests {
+  umbrella header "Pods-nav-navTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
