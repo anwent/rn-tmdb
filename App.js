@@ -9,6 +9,7 @@
 import 'react-native-gesture-handler'
 import React from 'react';
 import {
+  LogBox
 } from 'react-native';
 
 import {
@@ -23,6 +24,7 @@ const App: () => React$Node = () => {
 
   console.disableYellowBox = true;
 
+  LogBox.ignoreAllLogs();
   return (
     <TMDBNavigation />
   );

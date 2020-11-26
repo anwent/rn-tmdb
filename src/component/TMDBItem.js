@@ -17,7 +17,6 @@ const gridColumns = 3;
 export function renderItem(item, index, isGrid, isMovie, onPress = () => {}) {
     let imageUrl = `https://image.tmdb.org/t/p/w300${isMovie ? item.backdrop_path : item.poster_path}`
     let title = isMovie ? item.title : item.name;
-
     return (
         <TouchableOpacity
             style={styles({
@@ -46,7 +45,7 @@ export function renderItem(item, index, isGrid, isMovie, onPress = () => {}) {
 const styles = (props) => StyleSheet.create({
     item: {
         width: props.isGrid ? (screenWidth - ((gridColumns + 1) * itemMargin)) / gridColumns : screenWidth - itemMargin * 4,
-        height: 200,
+        height: props.isGrid ? 200 : 300,
         marginStart: props.isGrid ? itemMargin : itemMargin * 2,
         marginTop: itemMargin
     },

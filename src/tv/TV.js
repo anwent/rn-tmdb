@@ -1,51 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { DETAIL_TITLE } from './../detail/Detail'
 import { ThemeContext } from '../context/ThemeCtx'
 import { renderItem } from '../component/TMDBItem'
 import { discoverTv } from '../provider/Providers'
+import { TMDBBase } from '../component/BaseCompoent'
 
-class TV extends Component {
+class TV extends TMDBBase {
 
-    state = {
-        datasource: []
-    }
-
-    render() {
+    TMDBRender = context => {
         return (
-            <ThemeContext.Consumer>
-                {
-                    value =>
-                        <FlatList
-                            style={{ flex: 1 }}
-                            data={this.state.datasource}
-                            renderItem={({ item, index }) => renderItem(item, index, value.theme, false, () => {
-                                this._onClickItem(item, index);
-                            })}
-                            keyExtractor={(item, index) => String(index)}
-                            key={value.theme ? 'v' : 'h'}
-                            numColumns={value.theme ? 3 : 1}
-                        />
-                }
-            </ThemeContext.Consumer>
-
-        );
+            <FlatList
+                style={{ flex: 1 }}
+                data={this.state.datasource}
+                renderItem={({ item, index }) => renderItem(item, index, context.theme, false, () => {
+                    this.TMDBOnClickItem(item, index)
+                })}
+                keyExtractor={(item, index) => String(index)}
+                key={context.theme ? 'v' : 'h'}
+                numColumns={context.theme ? 3 : 1} 
+                refreshControl={
+                    <RefreshControl
+                        tintColor='#000000'
+                        refreshing={this.state.isRef}
+                        onRefresh={() => (
+                            this.onRefresh('tv')
+                        )} />
+                } />
+        )
     }
 
-    componentDidMount() {
-        this._discoverTv();
+    TMDBDidMount = () => {
+        this.discoverTv();
     }
 
-    async _discoverTv() {
-        let result = await discoverTv();
-        this.setState({
-            datasource: result.results
-        })
-    }
 
-    _onClickItem(item, index) {
-        this.props.nav.navigate(DETAIL_TITLE, { item, index });
-    }
 }
 
 export const TV_TITLE = '电视';

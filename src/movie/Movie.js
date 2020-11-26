@@ -1,55 +1,69 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Button, FlatList, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Button, FlatList, Image, RefreshControl } from 'react-native';
 import { DETAIL_TITLE } from './../detail/Detail'
 import { ThemeContext } from '../context/ThemeCtx'
 import { discoverMovie } from './../provider/Providers'
 import { renderItem } from './../component/TMDBItem'
+import { TMDBBase } from '../component/BaseCompoent'
 
+class Movie extends TMDBBase {
 
-class Movie extends Component {
-
-    state = {
-        datasource: []
-    }
-
-    componentDidMount() {
-        this._discoverMovie();
-    }
-
-    render() {
-
+    TMDBRender = context => {
         return (
-            <ThemeContext.Consumer>
-                {
-                    value =>
-                        <FlatList
-                            style={{
-                                flex: 1,
-                                backgroundColor: '#000000'
-                            }}
-                            data={this.state.datasource}
-                            renderItem={({ item, index }) => renderItem(item, index, value.theme, true, () => {
-                                this._onClickItem(item, index);
-                            })}
-                            keyExtractor={(item, index) => String(index)}
-                            key={value.theme ? 'v' : 'h'}
-                            numColumns={value.theme ? 3 : 1}
-                        />
+            <FlatList
+                style={{
+                    flex: 1,
+                    backgroundColor: '#000000'
+                }}
+                data={this.state.datasource}
+                renderItem={({ item, index }) => renderItem(item, index, context.theme, true, () => {
+                    this.TMDBOnClickItem(item, index);
+                })}
+                keyExtractor={(item, index) => String(index)}
+                key={context.theme ? 'v' : 'h'}
+                numColumns={context.theme ? 3 : 1}
+                refreshControl={
+                    <RefreshControl
+                        tintColor='#ffffff'
+                        refreshing={this.state.isRef}
+                        onRefresh={() => (
+                            this.onRefresh('movie')
+                        )} />
                 }
-            </ThemeContext.Consumer>
+                ListFooterComponent={this._renderLoadMore}
+                onEndReached={this._onLoadMore}
+            />
         )
     }
 
-    async _discoverMovie(page) {
-        let req = await discoverMovie(page);
+    TMDBDidMount = () => {
+        this.discoverMovie()
+    }
+
+    _onLoadMore = () => {
+        if (this.state.isLoading) return;
+        if (!this.state.hasMore) return;
         this.setState({
-            datasource: req.results
+            isLoading: true
+        })
+        this.discoverMovie().catch(err => {
+            this.setState({
+                isLoading: false
+            })
+            console.log('网络请求失败:', err)
         })
     }
 
-    _onClickItem(item, index) {
-        this.props.nav.navigate(DETAIL_TITLE, { item, index });
+    _renderLoadMore = () => {
+        let load = this.state.hasMore ? '下拉加载更多' : '没有更多了'
+        let label = this.state.isLoading ? '加载中...' : load
+        return (
+            <View style={{ alignItems: 'center' }}>
+                <Text style={{ color: 'red' }} >{label}</Text>
+            </View>
+        )
     }
+
 }
 
 export const MOVIE_TITLE = '电影';
