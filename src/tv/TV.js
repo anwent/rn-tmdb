@@ -19,7 +19,9 @@ class TV extends Component {
                         <FlatList
                             style={{ flex: 1 }}
                             data={this.state.datasource}
-                            renderItem={({ item, index }) => renderItem(item, index, value.theme, false)}
+                            renderItem={({ item, index }) => renderItem(item, index, value.theme, false, () => {
+                                this._onClickItem(item, index);
+                            })}
                             keyExtractor={(item, index) => String(index)}
                             key={value.theme ? 'v' : 'h'}
                             numColumns={value.theme ? 3 : 1}
@@ -39,6 +41,10 @@ class TV extends Component {
         this.setState({
             datasource: result.results
         })
+    }
+
+    _onClickItem(item, index) {
+        this.props.nav.navigate(DETAIL_TITLE, { item, index });
     }
 }
 

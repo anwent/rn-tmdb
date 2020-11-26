@@ -18,7 +18,11 @@ import {
   TMDBNavigation
 } from './src/navigator/MainNavigation'
 
+
 const App: () => React$Node = () => {
+
+  console.disableYellowBox = true;
+
   return (
     <TMDBNavigation />
   );

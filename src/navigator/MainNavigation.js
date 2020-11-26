@@ -38,7 +38,9 @@ function MovieStackScreen() {
                                 )
                             }}
                         />
-                        <MovieStack.Screen name={DETAIL_TITLE} component={DetailScreen} />
+                        <MovieStack.Screen
+                            name={DETAIL_TITLE}
+                            component={DetailScreen} />
                     </MovieStack.Navigator>
             }
         </ThemeContext.Consumer>
@@ -65,7 +67,9 @@ function TVStackScreen() {
                                         onPress={() => { DeviceEventEmitter.emit('mod') }} />
                                 )
                             }} />
-                        <TVStack.Screen name={DETAIL_TITLE} component={DetailScreen} />
+                        <TVStack.Screen
+                            name={DETAIL_TITLE}
+                            component={DetailScreen} />
                     </TVStack.Navigator>
             }
         </ThemeContext.Consumer>
@@ -103,14 +107,23 @@ export function TMDBNavigation() {
                     <Tabbar.Screen
                         name={MOVIE_TITLE}
                         component={MovieStackScreen}
-                        />
+                        options={({ route }) => ({
+                            tabBarVisible: _hideBottomTabbar(route)
+                        })}
+                    />
                     <Tabbar.Screen
                         name={TV_TITLE}
-                        component={TVStackScreen} />
+                        component={TVStackScreen}
+                        options={({ route }) => ({
+                            tabBarVisible: _hideBottomTabbar(route)
+                        })} />
                 </Tabbar.Navigator>
             </ThemeContext.Provider>
-
         </NavigationContainer >
     )
 }
 
+function _hideBottomTabbar(route) {
+    let index = route.state?.index ?? 0
+    return index === 0
+}
