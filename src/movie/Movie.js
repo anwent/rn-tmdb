@@ -12,7 +12,8 @@ class Movie extends TMDBBase {
         return (
             <FlatList
                 style={{
-                    flex: 1,
+                    height: '100%',
+                    width: '100%',
                     backgroundColor: '#000000'
                 }}
                 data={this.state.datasource}
@@ -30,38 +31,15 @@ class Movie extends TMDBBase {
                             this.onRefresh('movie')
                         )} />
                 }
-                ListFooterComponent={this._renderLoadMore}
-                onEndReached={this._onLoadMore}
+                ListFooterComponent={this.renderLoadMore}
+                onEndReached={this.onLoadMore('movie')}
+                onEndReachedThreshold={0.01}
             />
         )
     }
 
     TMDBDidMount = () => {
         this.discoverMovie()
-    }
-
-    _onLoadMore = () => {
-        if (this.state.isLoading) return;
-        if (!this.state.hasMore) return;
-        this.setState({
-            isLoading: true
-        })
-        this.discoverMovie().catch(err => {
-            this.setState({
-                isLoading: false
-            })
-            console.log('网络请求失败:', err)
-        })
-    }
-
-    _renderLoadMore = () => {
-        let load = this.state.hasMore ? '下拉加载更多' : '没有更多了'
-        let label = this.state.isLoading ? '加载中...' : load
-        return (
-            <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: 'red' }} >{label}</Text>
-            </View>
-        )
     }
 
 }

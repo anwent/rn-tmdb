@@ -26,7 +26,10 @@ class TV extends TMDBBase {
                         onRefresh={() => (
                             this.onRefresh('tv')
                         )} />
-                } />
+                } 
+                ListFooterComponent={this.renderLoadMore}
+                onEndReached={this.onLoadMore('tv')} 
+                />
         )
     }
 

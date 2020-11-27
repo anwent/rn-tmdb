@@ -22,6 +22,7 @@ import {
 
 const App: () => React$Node = () => {
 
+
   console.disableYellowBox = true;
 
   LogBox.ignoreAllLogs();

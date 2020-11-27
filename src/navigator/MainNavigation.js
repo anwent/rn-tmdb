@@ -11,15 +11,21 @@ import { MovieScreen, MOVIE_TITLE } from './../movie/Movie'
 import { TVScreen, TV_TITLE } from './../tv/TV'
 import { DetailScreen, DETAIL_TITLE } from './../detail/Detail'
 import { ThemeContext } from '../context/ThemeCtx'
+import { SearchScreen, SEARCH_TITLE } from '../search/Search'
+import { SearchBar } from '../component/SearchBar'
+import { screenWidth } from '../utils/Utils'
 
 import {
     Button,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    HeaderBackButton,
+    View,
+    Platform
 } from 'react-native';
 
 
 const MovieStack = createStackNavigator();
-function MovieStackScreen() {
+function MovieStackScreen({ navigation }) {
     return (
         <ThemeContext.Consumer>
             {
@@ -35,12 +41,23 @@ function MovieStackScreen() {
                                         title={value.theme ? '切换为列表' : '切换为表格'}
                                         color='#FFA000'
                                         onPress={() => { DeviceEventEmitter.emit('mod') }} />
+                                ),
+                                headerLeft: (props) => (
+                                    <Button
+                                        title={SEARCH_TITLE}
+                                        color='#FFA000'
+                                        onPress={() => (
+                                            navigation.navigate(SEARCH_TITLE)
+                                        )}
+                                    />
                                 )
-                            }}
-                        />
+                            }} />
                         <MovieStack.Screen
                             name={DETAIL_TITLE}
                             component={DetailScreen} />
+                        <MovieStack.Screen
+                            name={SEARCH_TITLE}
+                            component={SearchScreen} />
                     </MovieStack.Navigator>
             }
         </ThemeContext.Consumer>
@@ -48,7 +65,7 @@ function MovieStackScreen() {
 }
 
 const TVStack = createStackNavigator();
-function TVStackScreen() {
+function TVStackScreen({ navigation }) {
 
     return (
         <ThemeContext.Consumer>
@@ -65,11 +82,29 @@ function TVStackScreen() {
                                         title={value.theme ? '切换为列表' : '切换为表格'}
                                         color='#FFA000'
                                         onPress={() => { DeviceEventEmitter.emit('mod') }} />
+                                ),
+                                headerLeft: (props) => (
+                                    <Button
+                                        title={SEARCH_TITLE}
+                                        color='#FFA000'
+                                        onPress={() => (
+                                            navigation.navigate(SEARCH_TITLE)
+                                        )}
+                                    />
                                 )
                             }} />
                         <TVStack.Screen
                             name={DETAIL_TITLE}
                             component={DetailScreen} />
+                        <TVStack.Screen
+                            name={SEARCH_TITLE}
+                            component={SearchScreen}
+                            options={{
+                                headerLeft: () => (
+                                    <SearchBar />
+                                ),
+                                headerTitle: null
+                            }} />
                     </TVStack.Navigator>
             }
         </ThemeContext.Consumer>
