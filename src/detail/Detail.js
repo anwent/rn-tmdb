@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class Detail extends Component {
 
     render() {
         return (
-            <View />
+            // <View />
+            <Icon name="github" size={44} color="blue" />
         );
     }
 }

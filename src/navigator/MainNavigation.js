@@ -14,14 +14,20 @@ import { ThemeContext } from '../context/ThemeCtx'
 import { SearchScreen, SEARCH_TITLE } from '../search/Search'
 import { SearchBar } from '../component/SearchBar'
 import { screenWidth } from '../utils/Utils'
+import Entypo from 'react-native-vector-icons/Entypo'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import {
     Button,
     DeviceEventEmitter,
     HeaderBackButton,
     View,
-    Platform
+    Platform,
+    Text
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const MovieStack = createStackNavigator();
@@ -37,19 +43,18 @@ function MovieStackScreen({ navigation }) {
                             initialParams={{ mode: 0 }}
                             options={{
                                 headerRight: () => (
-                                    <Button
-                                        title={value.theme ? '切换为列表' : '切换为表格'}
-                                        color='#FFA000'
-                                        onPress={() => { DeviceEventEmitter.emit('mod') }} />
+                                    <TouchableOpacity onPress={() => {
+                                        DeviceEventEmitter.emit('mod')
+                                    }}>
+                                        <Entypo style={{ marginEnd: 10 }} name={value.theme ? 'list' : 'grid'} size={34} color="#FFA000" />
+                                    </TouchableOpacity>
                                 ),
                                 headerLeft: (props) => (
-                                    <Button
-                                        title={SEARCH_TITLE}
-                                        color='#FFA000'
-                                        onPress={() => (
-                                            navigation.navigate(SEARCH_TITLE)
-                                        )}
-                                    />
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.navigate(SEARCH_TITLE)
+                                    }}>
+                                        <EvilIcons style={{ marginStart: 10 }} name={'search'} size={34} color="#FFA000" />
+                                    </TouchableOpacity>
                                 )
                             }} />
                         <MovieStack.Screen
@@ -78,19 +83,18 @@ function TVStackScreen({ navigation }) {
                             initialParams={{ mode: 0 }}
                             options={{
                                 headerRight: () => (
-                                    <Button
-                                        title={value.theme ? '切换为列表' : '切换为表格'}
-                                        color='#FFA000'
-                                        onPress={() => { DeviceEventEmitter.emit('mod') }} />
+                                    <TouchableOpacity onPress={() => {
+                                        DeviceEventEmitter.emit('mod')
+                                    }}>
+                                        <Entypo style={{ marginEnd: 10 }} name={value.theme ? 'list' : 'grid'} size={34} color="#FFA000" />
+                                    </TouchableOpacity>
                                 ),
                                 headerLeft: (props) => (
-                                    <Button
-                                        title={SEARCH_TITLE}
-                                        color='#FFA000'
-                                        onPress={() => (
-                                            navigation.navigate(SEARCH_TITLE)
-                                        )}
-                                    />
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.navigate(SEARCH_TITLE)
+                                    }}>
+                                        <EvilIcons style={{ marginStart: 10 }} name={'search'} size={34} color="#FFA000" />
+                                    </TouchableOpacity>
                                 )
                             }} />
                         <TVStack.Screen
@@ -138,19 +142,27 @@ export function TMDBNavigation() {
                     tabBarOptions={{
                         activeTintColor: 'tomato',
                         inactiveTintColor: 'gray',
+                        iconStyle: 'normal'
                     }} >
                     <Tabbar.Screen
                         name={MOVIE_TITLE}
                         component={MovieStackScreen}
                         options={({ route }) => ({
-                            tabBarVisible: _hideBottomTabbar(route)
+                            tabBarVisible: _hideBottomTabbar(route),
+                            tabBarIcon: ({ size, color }) => (
+                                <MaterialCommunityIcons name='movie' size={size} color={color} />
+                            )
                         })}
                     />
                     <Tabbar.Screen
                         name={TV_TITLE}
                         component={TVStackScreen}
+                        
                         options={({ route }) => ({
-                            tabBarVisible: _hideBottomTabbar(route)
+                            tabBarVisible: _hideBottomTabbar(route),
+                            tabBarIcon: ({ size, color }) => (
+                                <MaterialIcons name='tv' size={size} color={color} />
+                            )
                         })} />
                 </Tabbar.Navigator>
             </ThemeContext.Provider>
