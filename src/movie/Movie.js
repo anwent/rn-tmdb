@@ -45,6 +45,7 @@ class Movie extends TMDBBase {
 }
 
 export const MOVIE_TITLE = '电影';
+export const MOVIE_TITLE_NAV = '电影页';
 
 export function MovieScreen({ navigation, route }) {
     return (

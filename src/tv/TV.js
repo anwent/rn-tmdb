@@ -41,6 +41,8 @@ class TV extends TMDBBase {
 }
 
 export const TV_TITLE = '电视';
+export const TV_TITLE_NAV = '电视页';
+
 
 export function TVScreen({ navigation, route }) {
 
